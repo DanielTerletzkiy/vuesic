@@ -175,7 +175,7 @@ const icon = defineAsyncComponent(() =>
       </d-row>
     </d-column>
     <d-column v-else justify="center" align="center" block height="80vh">
-      <d-card width="30vw" height="40vh" blur :rounded="Rounded.xl" outlined class="pa-2">
+      <d-card width="30vw" blur :rounded="Rounded.xl" outlined class="pa-2">
         <d-card-title>
           Welcome to
           <DWrapper :color="ThemeColorProperty.primary">
