@@ -41,7 +41,7 @@ const mapOpen = ref(false);
           </template>
           <VenueMap
               style="width: 100%; height: 400px"
-              :coords="[event.venue.latitude, event.venue.longitude]"
+              :coords="[[event.venue.latitude, event.venue.longitude]]"
           />
         </d-accordion>
       </d-column>

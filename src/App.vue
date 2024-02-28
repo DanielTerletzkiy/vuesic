@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  DAccordion,
   DButton,
   DCard,
   DCardSubtitle,
@@ -25,6 +26,7 @@ import EventItem from "./components/EventItem.vue";
 import {AppDataSource} from "./dataSource";
 import {SavedArtist} from "./entities/SavedArtist.entity";
 import {watchDebounced} from '@vueuse/core'
+import VenueMap from "./components/VenueMap.vue";
 
 const name = ref();
 const artist = ref<Artist>();
@@ -84,6 +86,14 @@ const isSaved = computed(()=>{
   //@ts-ignore
   return !!savedArtists.value.find((x)=>x.artistId === parseInt(artist.value.id));
 })
+
+const mapOpen = ref(false);
+const coords = computed(()=>{
+  if(!events.value.length){
+    return [];
+  }
+  return events.value.map((event)=>[event.venue.latitude, event.venue.longitude])
+})
 </script>
 
 <template>
@@ -122,19 +132,28 @@ const isSaved = computed(()=>{
       <d-column elevation="n1">
         <d-row align="start" :wrap="false">
           <d-image-diffuse style="z-index: 2" :src="artist.image_url" width="500px" height="500px" :rounded="Rounded.xl" blur-amount="500px"/>
-          <d-column>
+          <d-column gap block>
             <d-card-title class="font-size-large">
               {{ artist.name }}
             </d-card-title>
             <d-card-subtitle class="font-size-medium">
               Social Links
             </d-card-subtitle>
-            <d-grid :gap="8" :columns="5">
+            <d-grid :gap="8" :columns="3">
               <d-button v-for="link in artist.links" root-tag="a" :href="link.url" target="_blank" :size="Size.large"
                         block>
                 {{ link.type }}
               </d-button>
             </d-grid>
+            <d-accordion v-model="mapOpen" show-arrow>
+              <template #header>
+                All Locations
+              </template>
+              <VenueMap
+                  style="width: 100%; height: 400px"
+                  :coords="coords"
+              />
+            </d-accordion>
           </d-column>
         </d-row>
       </d-column>
