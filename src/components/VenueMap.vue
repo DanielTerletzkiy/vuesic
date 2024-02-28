@@ -6,7 +6,7 @@ import {PropType, ref} from "vue";
 const zoom = ref(10);
 
 defineProps({
-  coords: {type: Object as PropType<[string[]]>, required:true}
+  coords: {type: Object as PropType<string[][]>, required:true}
 })
 </script>
 
