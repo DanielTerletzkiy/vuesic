@@ -112,7 +112,7 @@ const isSaved = computed(()=>{
     <d-column v-if="artist" gap>
       <d-column blur>
         <d-row align="start">
-          <d-image-diffuse :src="artist.image_url" width="500px" height="500px" :rounded="Rounded.xl"/>
+          <d-image-diffuse style="z-index: 2" :src="artist.image_url" width="500px" height="500px" :rounded="Rounded.xl" blur-amount="500px"/>
           <d-column>
             <d-card-title class="font-size-large">
               {{ artist.name }}
