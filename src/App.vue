@@ -99,7 +99,7 @@ const isSaved = computed(()=>{
       <d-button v-else-if="artist" @click="saveCurrentArtist">
         Favourite
       </d-button>
-      <d-textfield :model-value="savedArtists.findIndex((x)=>x.name === name)"
+      <d-textfield v-if="savedArtists.length" :model-value="savedArtists.findIndex((x)=>x.name === name)"
                    @update:modelValue="name = savedArtists[$event].name"
                    :items="savedArtists" select solo
                    search search-key="name"
@@ -112,11 +112,14 @@ const isSaved = computed(()=>{
         <template #item="{item}">
           {{ item.name }}
         </template>
+        <template #empty>
+          Favourites
+        </template>
       </d-textfield>
       <d-textfield v-model="name" filled solo placeholder="Artist name" :color="ThemeColorProperty.primary"/>
     </d-toolbar>
     <d-column v-if="artist" gap>
-      <d-column blur>
+      <d-column elevation="n1">
         <d-row align="start">
           <d-image-diffuse style="z-index: 2" :src="artist.image_url" width="500px" height="500px" :rounded="Rounded.xl" blur-amount="500px"/>
           <d-column>

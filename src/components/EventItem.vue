@@ -13,7 +13,7 @@ const mapOpen = ref(false);
 </script>
 
 <template>
-  <d-card block>
+  <d-card block elevation="1">
     <d-card-title class="font-size-medium">
       {{ moment(event.datetime).format('DD.MM.yy hh:mm') }}
       <d-spacer/>
