@@ -120,7 +120,7 @@ const isSaved = computed(()=>{
     </d-toolbar>
     <d-column v-if="artist" gap>
       <d-column elevation="n1">
-        <d-row align="start">
+        <d-row align="start" :wrap="false">
           <d-image-diffuse style="z-index: 2" :src="artist.image_url" width="500px" height="500px" :rounded="Rounded.xl" blur-amount="500px"/>
           <d-column>
             <d-card-title class="font-size-large">
