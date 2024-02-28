@@ -7,19 +7,18 @@ import {
   DCardTitle,
   DColumn,
   DDivider,
-  DGrid,
-  DImageDiffuse,
+  DGrid, DImageDiffuse,
   DRoot,
   DRow,
   DSpacer,
   DTextfield,
   DToolbar,
-  DTypography,
+  DTypography, DWrapper,
   Rounded,
   Size,
   ThemeColorProperty
 } from "vuelize";
-import {computed, onMounted, ref} from "vue";
+import {computed, defineAsyncComponent, onMounted, ref} from "vue";
 import {Artist} from "./types/Artist.type";
 import {Events} from "./types/Events";
 import EventItem from "./components/EventItem.vue";
@@ -35,7 +34,7 @@ const events = ref<Events>([]);
 watchDebounced(
     name,
     get,
-    { debounce: 500, maxWait: 1000 },
+    {debounce: 500, maxWait: 1000},
 )
 
 async function get() {
@@ -46,7 +45,8 @@ async function get() {
 }
 
 const savedArtists = ref<SavedArtist[]>([])
-async function getSaved(){
+
+async function getSaved() {
   savedArtists.value = await AppDataSource.getRepository(SavedArtist).find({
     order: {
       name: "asc"
@@ -70,38 +70,44 @@ async function removeCurrentArtist() {
   if (!isSaved.value || !artist.value) {
     return;
   }
-  const savedArtist = await AppDataSource.getRepository(SavedArtist).findOne({where: {
-    artistId: parseInt(artist.value?.id)
-    }});
-  if(!savedArtist){
+  const savedArtist = await AppDataSource.getRepository(SavedArtist).findOne({
+    where: {
+      artistId: parseInt(artist.value?.id)
+    }
+  });
+  if (!savedArtist) {
     return;
   }
   AppDataSource.getRepository(SavedArtist).remove(savedArtist).then(getSaved);
 }
 
-const isSaved = computed(()=>{
-  if(!artist.value){
+const isSaved = computed(() => {
+  if (!artist.value) {
     return false;
   }
   //@ts-ignore
-  return !!savedArtists.value.find((x)=>x.artistId === parseInt(artist.value.id));
+  return !!savedArtists.value.find((x) => x.artistId === parseInt(artist.value.id));
 })
 
 const mapOpen = ref(false);
-const coords = computed(()=>{
-  if(!events.value.length){
+const coords = computed(() => {
+  if (!events.value.length) {
     return [];
   }
-  return events.value.map((event)=>[event.venue.latitude, event.venue.longitude])
+  return events.value.map((event) => [event.venue.latitude, event.venue.longitude])
 })
+
+const icon = defineAsyncComponent(() =>
+    import(`../public/icon.svg`)
+);
 </script>
 
 <template>
   <d-root>
     <d-toolbar>
-      <d-card-title class="font-size-medium">
-        Vuesic
-      </d-card-title>
+      <DWrapper :color="ThemeColorProperty.primary">
+        <component :is="icon" style="height: 44px"/>
+      </DWrapper>
       <d-spacer/>
       <d-button v-if="isSaved" @click="removeCurrentArtist">
         Un-Favourite
@@ -131,7 +137,8 @@ const coords = computed(()=>{
     <d-column v-if="artist" gap>
       <d-column elevation="n1">
         <d-row align="start" :wrap="false">
-          <d-image-diffuse style="z-index: 2" :src="artist.image_url" width="500px" height="500px" :rounded="Rounded.xl" blur-amount="500px"/>
+          <d-image-diffuse style="z-index: 2" :src="artist.image_url" width="500px" height="500px" :rounded="Rounded.xl"
+                           blur-amount="500px"/>
           <d-column gap block>
             <d-card-title class="font-size-large">
               {{ artist.name }}
@@ -163,23 +170,30 @@ const coords = computed(()=>{
           <EventItem v-for="event in events" :event="event" :key="event.id"/>
         </d-column>
         <d-typography v-else class="px-3">
-          "{{name}}" has no events in the near future...
+          "{{ name }}" has no events in the near future...
         </d-typography>
       </d-row>
     </d-column>
     <d-column v-else justify="center" align="center" block height="80vh">
       <d-card width="30vw" height="40vh" blur :rounded="Rounded.xl" outlined class="pa-2">
         <d-card-title>
-          Welcome to <i>VUE</i>SIC!
+          Welcome to
+          <DWrapper :color="ThemeColorProperty.primary">
+            <component :is="icon" style="height: 44px"/>
+          </DWrapper>
         </d-card-title>
         <d-card-subtitle style="text-align: start" class="ma-0">
-          Vuesic is a platform dedicated to providing detailed information about performances by various artists. Our goal is to make it easy for you to find and explore performances from around the world.
+          Vuesic is a platform dedicated to providing detailed information about performances by various artists. Our
+          goal is to make it easy for you to find and explore performances from around the world.
           <br/>
           <br/>
-          Whether you're looking for concerts, theater performances, or dance events, Vuesic offers a database that includes details such as dates, locations, and descriptions. Our site is designed to be user-friendly, making it simple to search for performances by artist, location, or date.
+          Whether you're looking for concerts, theater performances, or dance events, Vuesic offers a database that
+          includes details such as dates, locations, and descriptions. Our site is designed to be user-friendly, making
+          it simple to search for performances by artist, location, or date.
           <br/>
           <br/>
-          Join Vuesic to enhance your experience of artistic performances. Explore, discover, and enjoy the world of music, theater, and dance with us.
+          Join Vuesic to enhance your experience of artistic performances. Explore, discover, and enjoy the world of
+          music, theater, and dance with us.
         </d-card-subtitle>
       </d-card>
     </d-column>
