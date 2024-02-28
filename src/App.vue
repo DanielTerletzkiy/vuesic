@@ -1,26 +1,30 @@
 <script setup lang="ts">
 import {
-  DButton, DCardSubtitle,
+  DButton,
+  DCard,
+  DCardSubtitle,
   DCardTitle,
-  DColumn, DDivider,
+  DColumn,
+  DDivider,
   DGrid,
   DImageDiffuse,
   DRoot,
   DRow,
   DSpacer,
   DTextfield,
-  DToolbar, DTypography,
+  DToolbar,
+  DTypography,
   Rounded,
   Size,
   ThemeColorProperty
 } from "vuelize";
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {Artist} from "./types/Artist.type";
 import {Events} from "./types/Events";
 import EventItem from "./components/EventItem.vue";
 import {AppDataSource} from "./dataSource";
 import {SavedArtist} from "./entities/SavedArtist.entity";
-import { watchDebounced } from '@vueuse/core'
+import {watchDebounced} from '@vueuse/core'
 
 const name = ref();
 const artist = ref<Artist>();
@@ -85,7 +89,9 @@ const isSaved = computed(()=>{
 <template>
   <d-root>
     <d-toolbar>
-      Vuesic
+      <d-card-title class="font-size-medium">
+        Vuesic
+      </d-card-title>
       <d-spacer/>
       <d-button v-if="isSaved" @click="removeCurrentArtist">
         Un-Favourite
@@ -138,6 +144,22 @@ const isSaved = computed(()=>{
           "{{name}}" has no events in the near future...
         </d-typography>
       </d-row>
+    </d-column>
+    <d-column v-else justify="center" align="center" block height="80vh">
+      <d-card width="30vw" height="40vh" blur :rounded="Rounded.xl" outlined class="pa-2">
+        <d-card-title>
+          Welcome to <i>VUE</i>SIC!
+        </d-card-title>
+        <d-card-subtitle style="text-align: start" class="ma-0">
+          Vuesic is a platform dedicated to providing detailed information about performances by various artists. Our goal is to make it easy for you to find and explore performances from around the world.
+          <br/>
+          <br/>
+          Whether you're looking for concerts, theater performances, or dance events, Vuesic offers a database that includes details such as dates, locations, and descriptions. Our site is designed to be user-friendly, making it simple to search for performances by artist, location, or date.
+          <br/>
+          <br/>
+          Join Vuesic to enhance your experience of artistic performances. Explore, discover, and enjoy the world of music, theater, and dance with us.
+        </d-card-subtitle>
+      </d-card>
     </d-column>
   </d-root>
 </template>
