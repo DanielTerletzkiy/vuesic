@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {PropType, ref} from "vue";
 import {EventsChild} from "../types/Events";
-import {DAccordion, DCard, DCardSubtitle, DCardTitle, DTypography} from "vuelize";
+import {DAccordion, DButton, DCard, DCardSubtitle, DCardTitle, DTypography, Size} from "vuelize";
 import VenueMap from "./VenueMap.vue";
 import moment from "moment";
 
@@ -14,8 +14,18 @@ const mapOpen = ref(false);
 
 <template>
   <d-card block>
-    <d-card-title>
+    <d-card-title class="font-size-medium">
       {{ moment(event.datetime).format('DD.MM.yy hh:mm') }}
+      <d-spacer/>
+      <d-row v-if="event.offers.length" gap width="max-content">
+          <d-button v-for="offer in event.offers" root-tag="a" :href="offer.url" target="_blank" :size="Size.large"
+                    :disabled="offer.status !== 'available'" glow>
+            {{ offer.type }}
+          </d-button>
+      </d-row>
+      <d-typography v-else class="font-size-medium px-4">
+        No offers
+      </d-typography>
     </d-card-title>
     <d-grid :columns="1" :gap="8">
       <d-column :elevation="1">
