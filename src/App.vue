@@ -152,7 +152,7 @@ const icon = defineAsyncComponent(() =>
                 {{ link.type }}
               </d-button>
             </d-grid>
-            <d-accordion v-model="mapOpen" show-arrow>
+            <d-accordion v-if="coords.length" v-model="mapOpen" show-arrow>
               <template #header>
                 All Locations
               </template>
