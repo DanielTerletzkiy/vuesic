@@ -127,7 +127,7 @@ const isSaved = computed(()=>{
               {{ artist.name }}
             </d-card-title>
             <d-card-subtitle class="font-size-medium">
-              Links
+              Social Links
             </d-card-subtitle>
             <d-grid :gap="8" :columns="5">
               <d-button v-for="link in artist.links" root-tag="a" :href="link.url" target="_blank" :size="Size.large"
