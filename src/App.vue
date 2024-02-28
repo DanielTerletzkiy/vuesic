@@ -106,7 +106,7 @@ const icon = defineAsyncComponent(() =>
   <d-root>
     <d-toolbar>
       <DWrapper :color="ThemeColorProperty.primary">
-        <component :is="icon" style="height: 44px"/>
+        <component :is="icon" style="height: 30px"/>
       </DWrapper>
       <d-spacer/>
       <d-button v-if="isSaved" @click="removeCurrentArtist">
@@ -179,7 +179,7 @@ const icon = defineAsyncComponent(() =>
         <d-card-title>
           Welcome to
           <DWrapper :color="ThemeColorProperty.primary">
-            <component :is="icon" style="height: 44px"/>
+            <component :is="icon" style="height: 30px"/>
           </DWrapper>
         </d-card-title>
         <d-card-subtitle style="text-align: start" class="ma-0">
