@@ -9,7 +9,7 @@ import {
   DRow,
   DSpacer,
   DTextfield,
-  DToolbar,
+  DToolbar, DTypography,
   Rounded,
   Size,
   ThemeColorProperty
@@ -131,9 +131,12 @@ const isSaved = computed(()=>{
       </d-column>
       <d-divider class="mx-3"/>
       <d-row justify="center">
-        <d-column gap width="65vw">
+        <d-column v-if="events.length" gap width="65vw">
           <EventItem v-for="event in events" :event="event" :key="event.id"/>
         </d-column>
+        <d-typography v-else class="px-3">
+          "{{name}}" has no events in the near future...
+        </d-typography>
       </d-row>
     </d-column>
   </d-root>
